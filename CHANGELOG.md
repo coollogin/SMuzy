@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.1 — 2026-11-21
+
+### Fixes
+
+- The spectrum visualizer is now on by default and starts with the Pedestal (mirrored bars) style; installs upgrading from 1.0.0 get the new defaults once.
+- Enabling the visualizer no longer leaves the vinyl cover animation stuck inside the sleeve.
+- The Tags section no longer disappears after repeated refreshes: Navidrome's login rate limit (HTTP 429) and transient server errors are treated as retryable errors, and the native API token is refreshed from Navidrome's rotation header and reused between scans instead of logging in on every page.
+
 ## 1.0.0 — 2026-11-21
 
 First public SMuzy release, based on the earlier open-source Subsonic client this project forked from.

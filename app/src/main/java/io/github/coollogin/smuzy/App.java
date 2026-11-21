@@ -55,6 +55,7 @@ public class App extends Application {
         instance = new App();
         context = getApplicationContext();
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        Preferences.applyVisualizerDefaultsIfNeeded();
 
         ClientCertManager.setupSslSocketFactory(context);
     }

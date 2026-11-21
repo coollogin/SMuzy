@@ -131,13 +131,13 @@
 
         <SwitchPreference
             android:title="@string/settings_visualizer"
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:summary="@string/settings_visualizer_summary"
             android:key="visualizer" />
 
         <ListPreference
             android:key="visualizer_type"
-            android:defaultValue="wave"
+            android:defaultValue="pedestal"
             android:title="@string/settings_visualizer_type"
             android:dialogTitle="@string/settings_visualizer_type"
             android:dependency="visualizer"

@@ -12,8 +12,8 @@ class VisualizerModeTest {
     }
 
     @Test
-    fun fallsBackToWave() {
-        assertEquals(VisualizerMode.WAVE, VisualizerMode.fromPreference(null))
-        assertEquals(VisualizerMode.WAVE, VisualizerMode.fromPreference("unknown"))
+    fun fallsBackToPedestal() {
+        assertEquals(VisualizerMode.PEDESTAL, VisualizerMode.fromPreference(null))
+        assertEquals(VisualizerMode.PEDESTAL, VisualizerMode.fromPreference("unknown"))
     }
 }

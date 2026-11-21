@@ -6,6 +6,6 @@ enum class VisualizerMode(val preferenceValue: String) {
 
     companion object {
         fun fromPreference(value: String?): VisualizerMode =
-            entries.firstOrNull { it.preferenceValue == value } ?: WAVE
+            entries.firstOrNull { it.preferenceValue == value } ?: PEDESTAL
     }
 }

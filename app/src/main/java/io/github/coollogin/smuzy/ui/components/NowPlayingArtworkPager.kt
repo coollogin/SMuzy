@@ -55,7 +55,7 @@ fun NowPlayingArtworkPager(
     coverAnimation: Boolean = false,
     isPlaying: Boolean = false,
     showVisualizer: Boolean = false,
-    visualizerMode: VisualizerMode = VisualizerMode.WAVE,
+    visualizerMode: VisualizerMode = VisualizerMode.PEDESTAL,
     retractRequest: Int = 0,
     onRetracted: () -> Unit = {},
     expandRequest: Int = 0,
@@ -192,6 +192,7 @@ fun NowPlayingArtworkPager(
                                 isRadio = true,
                                 radioArtworkUri = radioArtworkUri,
                                 isPlaying = isPlaying && page == pagerState.currentPage,
+                                layoutKey = showStrip,
                                 modifier = Modifier.fillMaxSize()
                             )
                         } else {
@@ -207,6 +208,7 @@ fun NowPlayingArtworkPager(
                                 retractRequest = if (isCurrent) retractRequest else 0,
                                 onRetracted = onRetracted,
                                 expandRequest = expandRequest,
+                                layoutKey = showStrip,
                                 modifier = Modifier.fillMaxSize()
                             )
                         }

@@ -10,6 +10,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
 
 /** The server does not offer Navidrome's native API (not Navidrome, or too old). */
@@ -27,10 +28,11 @@ class NavidromeAuthException(message: String) : Exception(message)
  * into logcat.
  */
 class NavidromeClient(serverAddress: String?) {
+    private val baseUrl: String
     private val service: NavidromeNativeService
 
     init {
-        val baseUrl = sanitizeBaseUrl(serverAddress)
+        baseUrl = sanitizeBaseUrl(serverAddress)
             ?: throw NavidromeUnsupportedException("No usable server address")
 
         service = Retrofit.Builder()
@@ -51,16 +53,21 @@ class NavidromeClient(serverAddress: String?) {
             throw NavidromeUnsupportedException("No credentials stored for the native API")
         }
 
-        var token = login(username, password)
+        // Reuse the JWT across refreshes: Navidrome rate-limits /auth/login (HTTP 429), so
+        // logging in on every scan makes retries fail exactly when the user needs them most.
+        var token = cachedToken(username)
+            ?: login(username, password).also { cacheToken(username, it) }
         val songs = LinkedHashMap<String, NavidromeSong>()
         var offset = 0
 
         while (true) {
             var response = requestPage(token, offset)
             if (response.code() == HTTP_UNAUTHORIZED) {
-                token = login(username, password)
+                invalidateToken(username)
+                token = login(username, password).also { cacheToken(username, it) }
                 response = requestPage(token, offset)
             }
+            if (response.isSuccessful) token = rotateToken(username, token, response)
 
             val page = readPage(response)
             if (page.isEmpty()) break
@@ -95,8 +102,12 @@ class NavidromeClient(serverAddress: String?) {
         when {
             response.code() == HTTP_UNAUTHORIZED || response.code() == HTTP_FORBIDDEN ->
                 throw NavidromeAuthException("Native API rejected the stored credentials")
-            !response.isSuccessful ->
+            isMissingEndpoint(response.code()) ->
                 throw NavidromeUnsupportedException("Native API login returned HTTP ${response.code()}")
+            // 429 from the login rate limiter and 5xx are transient: retry, do not hide the
+            // whole tags section as if the server did not support it.
+            !response.isSuccessful ->
+                throw IOException("Native API login returned HTTP ${response.code()}")
         }
 
         return response.body()?.token?.takeIf { it.isNotBlank() }
@@ -108,10 +119,13 @@ class NavidromeClient(serverAddress: String?) {
             throw NavidromeAuthException("Native API rejected the token")
         }
         if (!response.isSuccessful) {
-            throw if (response.code() in 400..499) {
-                NavidromeUnsupportedException("Native API songs returned HTTP ${response.code()}")
-            } else {
-                IOException("Native API songs returned HTTP ${response.code()}")
+            throw when {
+                response.code() == HTTP_FORBIDDEN ->
+                    NavidromeAuthException("Native API rejected the token")
+                isMissingEndpoint(response.code()) ->
+                    NavidromeUnsupportedException("Native API songs returned HTTP ${response.code()}")
+                else ->
+                    IOException("Native API songs returned HTTP ${response.code()}")
             }
         }
 
@@ -125,6 +139,50 @@ class NavidromeClient(serverAddress: String?) {
     private fun belongsToLibrary(song: NavidromeSong, libraryId: String?): Boolean {
         if (libraryId == null) return true
         return song.libraryId == libraryId
+    }
+
+    private fun isMissingEndpoint(code: Int): Boolean =
+        code == HTTP_NOT_FOUND || code == HTTP_METHOD_NOT_ALLOWED || code == HTTP_NOT_IMPLEMENTED
+
+    private fun cachedToken(username: String): String? {
+        val key = TokenKey(baseUrl, username)
+        val cached = tokenCache[key] ?: return null
+        if (cached.expiresAt > System.currentTimeMillis()) return cached.token
+
+        tokenCache.remove(key, cached)
+        return null
+    }
+
+    private fun cacheToken(username: String, token: String) {
+        tokenCache[TokenKey(baseUrl, username)] =
+            CachedToken(token, System.currentTimeMillis() + TOKEN_TTL_MS)
+    }
+
+    private fun invalidateToken(username: String) {
+        tokenCache.remove(TokenKey(baseUrl, username))
+    }
+
+    /**
+     * Navidrome rotates the JWT on every successful request and returns the replacement in
+     * [AUTHORIZATION_HEADER]. Keep the newest one so the cached token does not go stale.
+     */
+    private fun rotateToken(
+        username: String,
+        current: String,
+        response: Response<*>,
+    ): String {
+        val header = response.headers()[AUTHORIZATION_HEADER]?.trim().orEmpty()
+        if (header.isEmpty()) return current
+
+        val rotated = if (header.startsWith(BEARER_PREFIX, ignoreCase = true)) {
+            header.substring(BEARER_PREFIX.length).trim()
+        } else {
+            header
+        }
+        if (rotated.isEmpty()) return current
+
+        cacheToken(username, rotated)
+        return rotated
     }
 
     private fun sanitizeBaseUrl(address: String?): String? {
@@ -149,11 +207,24 @@ class NavidromeClient(serverAddress: String?) {
         }
         .build()
 
+    private data class TokenKey(val baseUrl: String, val username: String)
+
+    private data class CachedToken(val token: String, val expiresAt: Long)
+
     private companion object {
         const val PAGE_SIZE = 500
         const val MAX_SONGS = 100_000
         const val SORT = "title"
         const val HTTP_UNAUTHORIZED = 401
         const val HTTP_FORBIDDEN = 403
+        const val HTTP_NOT_FOUND = 404
+        const val HTTP_METHOD_NOT_ALLOWED = 405
+        const val HTTP_NOT_IMPLEMENTED = 501
+        const val TOKEN_TTL_MS = 12 * 60 * 60 * 1000L
+        const val AUTHORIZATION_HEADER = "x-nd-authorization"
+        const val BEARER_PREFIX = "Bearer "
+
+        /** In-memory only; JWTs are never written to disk or logged. */
+        val tokenCache = ConcurrentHashMap<TokenKey, CachedToken>()
     }
 }

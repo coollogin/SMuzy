@@ -72,6 +72,7 @@ object Preferences {
     private const val COVER_ANIMATION = "cover_animation"
     const val VISUALIZER = "visualizer"
     const val VISUALIZER_TYPE = "visualizer_type"
+    private const val VISUALIZER_DEFAULTS_MIGRATED = "visualizer_defaults_migrated"
     private const val PODCAST_SECTION_VISIBILITY = "podcast_section_visibility"
     private const val RADIO_SECTION_VISIBILITY = "radio_section_visibility"
     private const val AUTO_DOWNLOAD_LYRICS = "auto_download_lyrics"
@@ -787,7 +788,7 @@ object Preferences {
 
     @JvmStatic
     fun isVisualizerEnabled(): Boolean {
-        return App.getInstance().preferences.getBoolean(VISUALIZER, false)
+        return App.getInstance().preferences.getBoolean(VISUALIZER, true)
     }
 
     @JvmStatic
@@ -795,6 +796,30 @@ object Preferences {
         return VisualizerMode.fromPreference(
             App.getInstance().preferences.getString(VISUALIZER_TYPE, null)
         )
+    }
+
+    /**
+     * 1.0.0 shipped with the visualizer off and the wave style as defaults. Those values were
+     * already written to disk, so changing only the XML defaults would leave every existing
+     * install on the old values. Apply the new defaults once on startup.
+     *
+     * The old wave default is indistinguishable from a wave the user picked, so wave installs
+     * are migrated as well; only an explicit pedestal choice is left alone.
+     */
+    @JvmStatic
+    fun applyVisualizerDefaultsIfNeeded() {
+        val prefs = App.getInstance().preferences
+        if (prefs.getBoolean(VISUALIZER_DEFAULTS_MIGRATED, false)) return
+
+        val editor = prefs.edit().putBoolean(VISUALIZER_DEFAULTS_MIGRATED, true)
+        // An existing true value means the user turned the visualizer on themselves; keep it.
+        if (!prefs.getBoolean(VISUALIZER, false)) {
+            editor.putBoolean(VISUALIZER, true)
+        }
+        if (prefs.getString(VISUALIZER_TYPE, null) != VisualizerMode.PEDESTAL.preferenceValue) {
+            editor.putString(VISUALIZER_TYPE, VisualizerMode.PEDESTAL.preferenceValue)
+        }
+        editor.apply()
     }
 
     @JvmStatic

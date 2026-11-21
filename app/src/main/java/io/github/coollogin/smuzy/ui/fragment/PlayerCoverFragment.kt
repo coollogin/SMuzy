@@ -65,7 +65,7 @@ class PlayerCoverFragment : Fragment() {
     private var isPlaying by mutableStateOf(false)
     private var coverAnimationEnabled by mutableStateOf(false)
     private var visualizerEnabled by mutableStateOf(false)
-    private var visualizerMode by mutableStateOf(VisualizerMode.WAVE)
+    private var visualizerMode by mutableStateOf(VisualizerMode.PEDESTAL)
     private var retractRequest by mutableIntStateOf(0)
     private var expandRequest by mutableIntStateOf(0)
     private var pendingSkipAction: Runnable? = null
@@ -338,6 +338,12 @@ class PlayerCoverFragment : Fragment() {
         updatePlaybackState(browser.mediaMetadata, browser.currentMediaItemIndex)
 
         browser.addListener(object : Player.Listener {
+            // MediaController can deliver its initial state as a single onEvents call instead of
+            // individual callbacks, so refresh here as well or the cover stays retracted.
+            override fun onEvents(player: Player, events: Player.Events) {
+                isPlaying = isPlaybackIntended(player)
+            }
+
             override fun onIsPlayingChanged(playing: Boolean) {
                 isPlaying = isPlaybackIntended(browser)
             }

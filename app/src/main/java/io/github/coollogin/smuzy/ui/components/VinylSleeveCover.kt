@@ -94,6 +94,7 @@ fun VinylSleeveCover(
     retractRequest: Int = 0,
     onRetracted: () -> Unit = {},
     expandRequest: Int = 0,
+    layoutKey: Any? = null,
     modifier: Modifier = Modifier
 ) {
     var out by remember { mutableFloatStateOf(if (isPlaying) PLAY_OUT else REST_OUT) }
@@ -115,7 +116,9 @@ fun VinylSleeveCover(
         }
     }
 
-    LaunchedEffect(isPlaying, coverArtId, radioArtworkUri, title, artist) {
+    // layoutKey changes when the visualizer strip appears or disappears. Re-apply the slide
+    // target then, so a resize cannot leave the record stuck inside the sleeve.
+    LaunchedEffect(isPlaying, coverArtId, radioArtworkUri, title, artist, layoutKey) {
         val incoming = LabelState(coverArtId, radioArtworkUri, title, artist)
         if (incoming != shown) {
             if (isPlaying) {
@@ -153,7 +156,7 @@ fun VinylSleeveCover(
 
     var angle by remember { mutableFloatStateOf(0f) }
     var speed by remember { mutableFloatStateOf(0f) }
-    LaunchedEffect(isPlaying) {
+    LaunchedEffect(isPlaying, layoutKey) {
         var last = 0L
         while (isActive && (isPlaying || speed > 0.5f)) {
             withFrameNanos { now ->

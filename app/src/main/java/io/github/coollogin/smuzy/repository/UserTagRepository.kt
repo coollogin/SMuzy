@@ -1,5 +1,6 @@
 package io.github.coollogin.smuzy.repository
 
+import android.util.Log
 import androidx.annotation.OptIn
 import androidx.media3.common.util.UnstableApi
 import io.github.coollogin.smuzy.App
@@ -101,6 +102,7 @@ class UserTagRepository {
                         UserTagSong(serverId, entry.songId, entry.albumId, tag)
                     }
                 }
+                Log.d(TAG, "Scanned ${songs.size} songs, tagged albums: ${tagAlbumIds.size}")
 
                 if (generation != generationCounter.get()) return@execute
 
@@ -122,10 +124,13 @@ class UserTagRepository {
 
                 publish(UserTagCloudUiState.loaded(dao.getTagCounts(serverId)))
             } catch (e: NavidromeUnsupportedException) {
+                Log.w(TAG, "Native tag API unavailable: ${e.message}")
                 publish(if (cachedTags.isEmpty()) UserTagCloudUiState.unsupported() else UserTagCloudUiState.error(cachedTags))
             } catch (e: NavidromeAuthException) {
+                Log.w(TAG, "Native tag API rejected credentials: ${e.message}")
                 publish(UserTagCloudUiState.error(cachedTags))
             } catch (e: Exception) {
+                Log.w(TAG, "Tag scan failed: ${e.javaClass.simpleName}: ${e.message}")
                 publish(UserTagCloudUiState.error(cachedTags))
             }
         }
@@ -203,6 +208,7 @@ class UserTagRepository {
     }
 
     private companion object {
+        const val TAG = "UserTagRepository"
         val IO = Executors.newSingleThreadExecutor()
         val generationCounter = AtomicInteger()
         const val CACHE_TTL_MS = 12 * 60 * 60 * 1000L

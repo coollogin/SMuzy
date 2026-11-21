@@ -3,6 +3,7 @@ package io.github.coollogin.smuzy.github;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import io.github.coollogin.smuzy.BuildConfig;
 import io.github.coollogin.smuzy.github.models.LatestRelease;
 import io.github.coollogin.smuzy.github.utils.UpdateUtil;
 
@@ -18,17 +19,17 @@ public class UpdateUtilTest {
 
     @Test
     public void sameVersionDoesNotShowDialog() {
-        assertFalse(UpdateUtil.showUpdateDialog(releaseWithTag("v1.0.0")));
+        assertFalse(UpdateUtil.showUpdateDialog(releaseWithTag("v" + BuildConfig.VERSION_NAME)));
     }
 
     @Test
     public void newerPatchVersionShowsDialog() {
-        assertTrue(UpdateUtil.showUpdateDialog(releaseWithTag("v1.0.1")));
+        assertTrue(UpdateUtil.showUpdateDialog(releaseWithTag("v99.0.1")));
     }
 
     @Test
     public void newerMinorVersionShowsDialog() {
-        assertTrue(UpdateUtil.showUpdateDialog(releaseWithTag("v1.1.0")));
+        assertTrue(UpdateUtil.showUpdateDialog(releaseWithTag("v99.1.0")));
     }
 
     @Test
@@ -43,12 +44,12 @@ public class UpdateUtilTest {
 
     @Test
     public void taggedSuffixIsIgnored() {
-        assertTrue(UpdateUtil.showUpdateDialog(releaseWithTag("v1.0.1-beta")));
+        assertTrue(UpdateUtil.showUpdateDialog(releaseWithTag("v99.0.1-beta")));
     }
 
     @Test
     public void prefixedTagIsParsed() {
-        assertTrue(UpdateUtil.showUpdateDialog(releaseWithTag("smuzy-v1.1.0")));
+        assertTrue(UpdateUtil.showUpdateDialog(releaseWithTag("smuzy-v99.1.0")));
     }
 
     @Test
