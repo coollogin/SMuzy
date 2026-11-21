@@ -1,0 +1,6 @@
+package io.github.coollogin.smuzy.service
+
+import androidx.media3.common.util.UnstableApi
+
+@UnstableApi
+class MediaService : BaseMediaService()

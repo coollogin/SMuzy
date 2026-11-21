@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:#0f1115; color:#e8e8ec; font-family: "Segoe UI", Roboto, sans-serif; }
+  .wrap { display:grid; grid-template-columns: 1fr 1fr; gap:28px; padding:36px 40px; width:1240px; }
+  h2 { font-size:16px; font-weight:600; letter-spacing:.02em; margin:0 0 14px; color:#b9bcc9; text-transform:uppercase; }
+  .card { background:#181b22; border:1px solid #262a34; border-radius:18px; padding:22px 24px; }
+  .row { display:flex; align-items:center; gap:26px; }
+  .icon { width:132px; height:132px; object-fit:cover; display:block; }
+  .mask-circle { border-radius:50%; }
+  .mask-squircle { border-radius:32%; }
+  .mask-square { border-radius:16%; }
+  .sizes { display:flex; align-items:flex-end; gap:22px; margin-top:18px; }
+  .sz { text-align:center; color:#9aa0ad; font-size:11px; }
+  .sz img { display:block; margin:0 auto 6px; }
+  .mono { width:132px; height:132px; border-radius:32%; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .mono.light { background:#fffdf5; }
+  .mono.dark { background:#202430; }
+  .mono img { width:100%; height:100%; }
+  .mono.dark img { filter:invert(1); }
+  .phone { width:360px; height:520px; background:#141821; border:10px solid #2a2f3a; border-radius:38px; margin:0 auto; position:relative; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .phone .splash { width:110px; height:110px; border-radius:50%; }
+  .phone .brand { position:absolute; bottom:70px; left:0; right:0; text-align:center; color:#f4f1e8; font-size:22px; letter-spacing:.14em; font-weight:600; }
+  .header { display:flex; align-items:center; gap:14px; background:#1e2330; border-radius:14px; padding:14px 18px; }
+  .header img { width:40px; height:40px; border-radius:50%; }
+  .header .name { font-size:21px; font-weight:600; letter-spacing:.06em; }
+  .caption { color:#9aa0ad; font-size:12px; margin-top:12px; line-height:1.5; }
+  .full { grid-column:1 / -1; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section class="card">
+    <h2>Адаптивная иконка — маски</h2>
+    <div class="row">
+      <div class="sz"><img class="icon mask-circle" src="../new_icons/smuzi-icon-cocktail-straw-svg-square.svg"><br>circle</div>
+      <div class="sz"><img class="icon mask-squircle" src="../new_icons/smuzi-icon-cocktail-straw-svg-square.svg"><br>squircle</div>
+      <div class="sz"><img class="icon mask-square" src="../new_icons/smuzi-icon-cocktail-straw-svg-square.svg"><br>rounded</div>
+    </div>
+    <div class="caption">Лаунчеры применяют маску к adaptive-foreground (SMuzy, оба флейвора).</div>
+  </section>
+
+  <section class="card">
+    <h2>Legacy-иконка и размеры</h2>
+    <div class="sizes">
+      <div class="sz"><img class="mask-squircle" src="../new_icons/smuzi-icon-cocktail-straw-svg-squircle.svg" width="96" height="96"><br>96dp</div>
+      <div class="sz"><img class="mask-squircle" src="../new_icons/smuzi-icon-cocktail-straw-svg-squircle.svg" width="72" height="72"><br>72dp</div>
+      <div class="sz"><img class="mask-squircle" src="../new_icons/smuzi-icon-cocktail-straw-svg-squircle.svg" width="48" height="48"><br>48dp</div>
+      <div class="sz"><img class="mask-squircle" src="../new_icons/smuzi-icon-cocktail-straw-svg-squircle.svg" width="32" height="32"><br>32dp</div>
+    </div>
+    <div class="caption">Android 7–7.1 (API 24–25): mipmap/ic_launcher → layer-list.</div>
+  </section>
+
+  <section class="card">
+    <h2>Monochrome (Android 13+)</h2>
+    <div class="row">
+      <div class="mono light"><img src="smuzi-monochrome.svg"></div>
+      <div class="mono dark"><img src="smuzi-monochrome.svg"></div>
+      <div class="caption" style="margin:0;max-width:220px;">Силуэт из ic_launcher_monochrome.xml; система тонирует его под тему (показаны светлый и тёмный варианты).</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Тулбар / шапка меню</h2>
+    <div class="header">
+      <img src="../new_icons/smuzi-icon-cocktail-straw-svg-circle.svg">
+      <div class="name">SMuzy</div>
+    </div>
+    <div class="caption">ic_toolbar_tempo.xml + @string/app_name в шапке, drawer и приветствии.</div>
+    <div class="caption">Метка приложения в APK: «SMuzy» (все локали).</div>
+  </section>
+
+  <section class="card full">
+    <h2>Splash (Android 12+)</h2>
+    <div class="phone">
+      <img class="splash" src="../new_icons/smuzi-icon-cocktail-straw-svg-circle.svg">
+      <div class="brand">SMuzy</div>
+    </div>
+    <div class="caption">ic_splash_logo в safe zone 66dp; фон — тема приложения.</div>
+  </section>
+
+</div>
+</body>
+</html>
