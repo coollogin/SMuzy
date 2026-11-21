@@ -541,7 +541,7 @@
     <string name="settings_title_ui_landscape_items_per_row">Errenkada bakoitzeko elementuak, horizontalean</string>
     <string name="settings_title_ui_landscape_items_per_row_dialog">Errenkada bakoitzeko elementu kopurua</string>
     <string name="settings_transcoded_download">Transkodetutako deskarga</string>
-    <string name="settings_version_summary" translatable="false">1.0.2</string>
+    <string name="settings_version_summary" translatable="false">1.0.3</string>
     <string name="settings_version_title">Bertsioa</string>
     <string name="settings_wifi_only_summary">Erabiltzailearen berrespena eskatu sare mugikorraren bidez erreproduzitu aurretik.</string>
     <string name="settings_wifi_only_title">Wi-Fi bidez soilik erreproduzitzeko abisua</string>

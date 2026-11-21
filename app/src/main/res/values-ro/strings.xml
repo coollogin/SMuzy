@@ -404,7 +404,7 @@
     <string name="settings_title_transcoding_download">Descărcare Transcodare</string>
     <string name="settings_title_ui">UI</string>
     <string name="settings_transcoded_download">Descărcare transcodată</string>
-    <string name="settings_version_summary" translatable="false">1.0.2</string>
+    <string name="settings_version_summary" translatable="false">1.0.3</string>
     <string name="settings_version_title">Versiune</string>
     <string name="settings_wifi_only_summary">Cere confirmarea utilizatorului înainte de streaming pe rețeaua mobilă.</string>
     <string name="settings_wifi_only_title">Alerta stream numai Wi-Fi</string>

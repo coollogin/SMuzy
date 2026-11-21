@@ -617,7 +617,7 @@
     <string name="settings_title_ui_landscape_items_per_row">横画面での1行あたりの項目数</string>
     <string name="settings_title_ui_landscape_items_per_row_dialog">1行あたりの項目数</string>
     <string name="settings_transcoded_download">トランスコードされたダウンロード</string>
-    <string name="settings_version_summary" translatable="false">1.0.2</string>
+    <string name="settings_version_summary" translatable="false">1.0.3</string>
     <string name="settings_version_title">バージョン</string>
     <string name="settings_wifi_only_summary">モバイルネットワークでストリーミングする前に確認します。</string>
     <string name="settings_wifi_only_title">Wi-Fi以外でのストリーミング警告</string>

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.3 — 2026-11-22
+
+### Fixes
+
+- The USER_TAG cloud works again in release builds. R8 was renaming and stripping the Gson models for Navidrome's native API, which broke the login request and `/api/song` parsing in minified APKs.
+
 ## 1.0.2 — 2026-11-22
 
 ### Fixes

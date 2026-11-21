@@ -641,7 +641,7 @@
     <string name="settings_title_ui_landscape_items_per_row">Elementów na wiersz w poziomie</string>
     <string name="settings_title_ui_landscape_items_per_row_dialog">Liczba elementów na wiersz</string>
     <string name="settings_transcoded_download">Transkodowane pobieranie</string>
-    <string name="settings_version_summary" translatable="false">1.0.2</string>
+    <string name="settings_version_summary" translatable="false">1.0.3</string>
     <string name="settings_version_title">Wersja</string>
     <string name="settings_wifi_only_summary">Pytaj o potwierdzenie od użytkownika przed strumieniowaniem przez sieć komórkową.</string>
     <string name="settings_wifi_only_title">Alert o strumieniowaniu tylko przez Wi-Fi</string>

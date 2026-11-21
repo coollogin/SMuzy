@@ -593,7 +593,7 @@
     <string name="settings_title_ui_landscape_items_per_row">Elemente pro Zeile im Querformat</string>
     <string name="settings_title_ui_landscape_items_per_row_dialog">Elemente pro Zeile</string>
     <string name="settings_transcoded_download">Umgewandelte Downloads</string>
-    <string name="settings_version_summary" translatable="false">1.0.2</string>
+    <string name="settings_version_summary" translatable="false">1.0.3</string>
     <string name="settings_version_title">Version</string>
     <string name="settings_wifi_only_summary">Warnung anzeigen, wenn über Mobilfunk gestreamt wird</string>
     <string name="settings_wifi_only_title">Nur über WLAN streamen</string>

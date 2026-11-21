@@ -525,7 +525,7 @@
     <string name="settings_title_ui_landscape_items_per_row">Elementos por fila en modo horizontal</string>
     <string name="settings_title_ui_landscape_items_per_row_dialog">Número de elementos por fila</string>
     <string name="settings_transcoded_download">Descarga transcodificada</string>
-    <string name="settings_version_summary" translatable="false">1.0.2</string>
+    <string name="settings_version_summary" translatable="false">1.0.3</string>
     <string name="settings_version_title">Versión</string>
     <string name="settings_wifi_only_summary">Preguntar por confirmanción antes de transmitir usando datos mobiles.</string>
     <string name="settings_wifi_only_title">Alerta de transmitir usando solamente Wi-Fi</string>
