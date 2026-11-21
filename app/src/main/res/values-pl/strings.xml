@@ -641,7 +641,7 @@
     <string name="settings_title_ui_landscape_items_per_row">Elementów na wiersz w poziomie</string>
     <string name="settings_title_ui_landscape_items_per_row_dialog">Liczba elementów na wiersz</string>
     <string name="settings_transcoded_download">Transkodowane pobieranie</string>
-    <string name="settings_version_summary" translatable="false">3.1.0</string>
+    <string name="settings_version_summary" translatable="false">1.0.2</string>
     <string name="settings_version_title">Wersja</string>
     <string name="settings_wifi_only_summary">Pytaj o potwierdzenie od użytkownika przed strumieniowaniem przez sieć komórkową.</string>
     <string name="settings_wifi_only_title">Alert o strumieniowaniu tylko przez Wi-Fi</string>
@@ -741,9 +741,6 @@
     <string name="track_info_transcoded_content_type">Typ transkodowanej treści</string>
     <string name="track_info_transcoded_suffix">Sufiks transkodowania</string>
     <string name="track_info_year">Rok</string>
-    <string name="undraw_page">unDraw</string>
-    <string name="undraw_thanks">Specjalne podziękowania dla unDraw bez którego ilustracji nie mogliśmy uczynić tej aplikacji jeszcze piękniejszą.</string>
-    <string name="undraw_url">https://undraw.co/</string>
     <string name="widget_label">Widget SMuzy</string>
     <string name="widget_not_playing">Nie odtwarza</string>
     <string name="widget_placeholder_subtitle">Otwórz SMuzy</string>

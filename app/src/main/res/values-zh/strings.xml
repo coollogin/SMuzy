@@ -439,7 +439,7 @@
     <string name="settings_title_transcoding_download">转码下载</string>
     <string name="settings_title_ui">界面</string>
     <string name="settings_transcoded_download">转码下载</string>
-    <string name="settings_version_summary" translatable="false">3.1.0</string>
+    <string name="settings_version_summary" translatable="false">1.0.2</string>
     <string name="settings_version_title">版本</string>
     <string name="settings_wifi_only_summary">在通过移动网络进行流式传输之前请求用户确认。</string>
     <string name="settings_wifi_only_title">提示仅通过 Wi-Fi 进行流式传输</string>
@@ -518,9 +518,6 @@
     <string name="track_info_transcoded_content_type">转码内容类型</string>
     <string name="track_info_transcoded_suffix">转码后缀</string>
     <string name="track_info_year">年份</string>
-    <string name="undraw_page">unDraw</string>
-    <string name="undraw_thanks">特别感谢 unDraw，没有它提供的插图，我们的应用不可能会如此精美。</string>
-    <string name="undraw_url">https://undraw.co/</string>
     <string name="widget_content_desc_album_art">专辑封面</string>
     <string name="widget_content_desc_next">下一首</string>
     <string name="widget_content_desc_play_pause">播放或暂停</string>

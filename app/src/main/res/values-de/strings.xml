@@ -593,7 +593,7 @@
     <string name="settings_title_ui_landscape_items_per_row">Elemente pro Zeile im Querformat</string>
     <string name="settings_title_ui_landscape_items_per_row_dialog">Elemente pro Zeile</string>
     <string name="settings_transcoded_download">Umgewandelte Downloads</string>
-    <string name="settings_version_summary" translatable="false">3.1.0</string>
+    <string name="settings_version_summary" translatable="false">1.0.2</string>
     <string name="settings_version_title">Version</string>
     <string name="settings_wifi_only_summary">Warnung anzeigen, wenn über Mobilfunk gestreamt wird</string>
     <string name="settings_wifi_only_title">Nur über WLAN streamen</string>
@@ -693,9 +693,6 @@
     <string name="track_info_transcoded_content_type">Umgewandelter Inhaltstyp</string>
     <string name="track_info_transcoded_suffix">Umgewandelte Endung</string>
     <string name="track_info_year">Jahr</string>
-    <string name="undraw_page">unDraw</string>
-    <string name="undraw_thanks">Besonderer Dank gilt unDraw, ohne deren Illustrationen diese App nur halb so schön aussehen würde.</string>
-    <string name="undraw_url" translatable="false">https://undraw.co/</string>
     <string name="widget_label">SMuzy Widget</string>
     <string name="widget_not_playing">Angehalten</string>
     <string name="widget_placeholder_subtitle">SMuzy öffnen</string>

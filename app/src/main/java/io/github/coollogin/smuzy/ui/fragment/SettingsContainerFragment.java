@@ -29,6 +29,7 @@ import androidx.annotation.OptIn;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.os.LocaleListCompat;
 import androidx.documentfile.provider.DocumentFile;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.util.UnstableApi;
@@ -50,6 +51,8 @@ import androidx.preference.SwitchPreference;
 
 import io.github.coollogin.smuzy.BuildConfig;
 import io.github.coollogin.smuzy.R;
+import io.github.coollogin.smuzy.github.models.LatestRelease;
+import io.github.coollogin.smuzy.github.utils.UpdateUtil;
 import io.github.coollogin.smuzy.interfaces.DialogClickCallback;
 import io.github.coollogin.smuzy.interfaces.ScanCallback;
 import io.github.coollogin.smuzy.equalizer.EqualizerManager;
@@ -60,6 +63,7 @@ import io.github.coollogin.smuzy.service.MediaService;
 import io.github.coollogin.smuzy.ui.activity.MainActivity;
 import io.github.coollogin.smuzy.ui.dialog.DeleteDownloadStorageDialog;
 import io.github.coollogin.smuzy.ui.dialog.DownloadStorageDialog;
+import io.github.coollogin.smuzy.ui.dialog.GithubUpdateDialog;
 import io.github.coollogin.smuzy.ui.dialog.StarredAlbumSyncDialog;
 import io.github.coollogin.smuzy.ui.dialog.StarredArtistSyncDialog;
 import io.github.coollogin.smuzy.ui.dialog.StarredSyncDialog;
@@ -117,6 +121,7 @@ public class SettingsContainerFragment extends PreferenceFragmentCompat {
     private final Set<String> expandedCategories = new HashSet<>();
 
     private boolean musicFoldersObserved = false;
+    private boolean manualUpdateCheckInProgress = false;
 
     // Null until the server answers with its folder list.
     private Integer musicFolderCount = null;
@@ -260,6 +265,7 @@ public class SettingsContainerFragment extends PreferenceFragmentCompat {
         // The flag means "this view already has the observer", and a child fragment can outlive
         // its parent's view, so it has to be cleared with the view rather than the instance.
         musicFoldersObserved = false;
+        manualUpdateCheckInProgress = false;
     }
 
     @Override
@@ -271,6 +277,14 @@ public class SettingsContainerFragment extends PreferenceFragmentCompat {
             if (githubUpdateCategory != null) {
                 getPreferenceScreen().removePreference(githubUpdateCategory);
             }
+        }
+
+        Preference checkUpdatesNow = findPreference("github_update_check_now");
+        if (checkUpdatesNow != null) {
+            checkUpdatesNow.setOnPreferenceClickListener(preference -> {
+                checkForUpdatesNow(preference);
+                return true;
+            });
         }
 
         if (BuildConfig.FLAVOR.equals("degoogled")) {
@@ -722,6 +736,49 @@ public class SettingsContainerFragment extends PreferenceFragmentCompat {
 
     private void setVersion() {
         findPreference("version").setSummary(BuildConfig.VERSION_NAME);
+    }
+
+    private void checkForUpdatesNow(Preference preference) {
+        if (manualUpdateCheckInProgress) {
+            return;
+        }
+
+        manualUpdateCheckInProgress = true;
+        CharSequence previousSummary = preference.getSummary();
+        preference.setEnabled(false);
+        preference.setSummary(R.string.settings_github_update_checking);
+
+        LiveData<LatestRelease> result = mainViewModel.checkUpdate();
+        result.observe(getViewLifecycleOwner(), new Observer<LatestRelease>() {
+            @Override
+            public void onChanged(LatestRelease latestRelease) {
+                result.removeObserver(this);
+                manualUpdateCheckInProgress = false;
+
+                if (!isAdded()) {
+                    return;
+                }
+
+                preference.setEnabled(true);
+                preference.setSummary(previousSummary);
+
+                if (latestRelease == null) {
+                    Toast.makeText(requireContext(), R.string.settings_github_update_check_failed, Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                Preferences.setUpdateCheckedNow();
+
+                if (UpdateUtil.showUpdateDialog(latestRelease)) {
+                    Preferences.setUpdateReminder();
+                    new GithubUpdateDialog(latestRelease).show(getParentFragmentManager(), null);
+                } else {
+                    Toast.makeText(requireContext(),
+                            getString(R.string.settings_github_update_up_to_date, BuildConfig.VERSION_NAME),
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void actionPermission() {

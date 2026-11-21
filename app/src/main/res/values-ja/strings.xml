@@ -617,7 +617,7 @@
     <string name="settings_title_ui_landscape_items_per_row">横画面での1行あたりの項目数</string>
     <string name="settings_title_ui_landscape_items_per_row_dialog">1行あたりの項目数</string>
     <string name="settings_transcoded_download">トランスコードされたダウンロード</string>
-    <string name="settings_version_summary" translatable="false">3.1.0</string>
+    <string name="settings_version_summary" translatable="false">1.0.2</string>
     <string name="settings_version_title">バージョン</string>
     <string name="settings_wifi_only_summary">モバイルネットワークでストリーミングする前に確認します。</string>
     <string name="settings_wifi_only_title">Wi-Fi以外でのストリーミング警告</string>
@@ -717,9 +717,6 @@
     <string name="track_info_transcoded_content_type">トランスコード後のコンテンツタイプ</string>
     <string name="track_info_transcoded_suffix">トランスコード後の拡張子</string>
     <string name="track_info_year">年</string>
-    <string name="undraw_page">unDraw</string>
-    <string name="undraw_thanks">unDrawに特別な感謝を。そのイラストがなければアプリを美しくすることはできませんでした。</string>
-    <string name="undraw_url" translatable="false">https://undraw.co/</string>
     <string name="widget_label">SMuzyウィジェット</string>
     <string name="widget_not_playing">再生していません</string>
     <string name="widget_placeholder_subtitle">SMuzyを開く</string>

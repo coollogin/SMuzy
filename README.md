@@ -37,7 +37,7 @@ SMuzy does not rely on magic algorithms to decide what you should listen to. The
 - **SMuzy look** — brand-orange Material 3 palette, SMuzy launcher icon and vinyl artwork placeholders.
 - **Cover animation and visualizer** — optional vinyl sleeve animation and a spectrum strip under the cover in the full-screen player.
 - **USER_TAG cloud** — browse albums by Navidrome user tags in the Library section.
-- **Update notifications** — optional daily check for new releases on GitHub (Settings → Updates).
+- **Update notifications** — optional GitHub release check when the app starts (Settings → Updates).
 
 ## Installation
 
@@ -73,7 +73,7 @@ The generated APK is in `app/build/outputs/apk/smuzy/`.
 
 ## Update checks
 
-SMuzy checks the latest GitHub release once a day and offers the download link when a newer version is published. The check can be disabled in **Settings → Updates**. It reads the public repository API without any account or token.
+SMuzy checks the latest GitHub release when the app starts, at most once every 15 minutes, and offers the download link when a newer version is published. The check can be disabled in **Settings → Updates**; there is also a **Check for updates now** action. It reads the public repository API without any account or token.
 
 ## Contributing
 
@@ -83,7 +83,9 @@ Bug reports and pull requests are welcome at [github.com/coollogin/SMuzy](https:
 
 SMuzy is released under the [GNU General Public License v3.0](LICENSE).
 
-SMuzy is based on an earlier open-source Subsonic client. SMuzy modifications are Copyright © 2026 coollogin. The original authors and contributors retain the rights to their work; their copyright notices and the GPL license are preserved in [LICENSE](LICENSE).
+SMuzy is a fork of [eddyizm/tempus](https://github.com/eddyizm/tempus), forked from v4.32.0. The original project/repository was created by [CappielloAntonio](https://github.com/CappielloAntonio). SMuzy modifications are Copyright © 2026 coollogin. The original authors and contributors retain the rights to their work; their copyright notices and the GPL license are preserved in [LICENSE](LICENSE).
+
+Thanks to [Likemiens/vinyl-player](https://github.com/Likemiens/vinyl-player) for the album animation idea.
 
 ## Author
 

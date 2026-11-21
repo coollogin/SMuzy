@@ -404,7 +404,7 @@
     <string name="settings_title_transcoding_download">Descărcare Transcodare</string>
     <string name="settings_title_ui">UI</string>
     <string name="settings_transcoded_download">Descărcare transcodată</string>
-    <string name="settings_version_summary" translatable="false">3.1.0</string>
+    <string name="settings_version_summary" translatable="false">1.0.2</string>
     <string name="settings_version_title">Versiune</string>
     <string name="settings_wifi_only_summary">Cere confirmarea utilizatorului înainte de streaming pe rețeaua mobilă.</string>
     <string name="settings_wifi_only_title">Alerta stream numai Wi-Fi</string>
@@ -495,9 +495,6 @@
     <string name="track_info_transcoded_content_type">Tip conținut transcodat</string>
     <string name="track_info_transcoded_suffix">Sufix transcodat</string>
     <string name="track_info_year">Anul</string>
-    <string name="undraw_page">unDraw</string>
-    <string name="undraw_thanks">Mulțumiri speciale merită unDraw fără ale cărui ilustrații nu am putut face această aplicație mai frumoasă.</string>
-    <string name="undraw_url">https://undraw.co/</string>
     <string name="widget_label">Widget SMuzy</string>
     <string name="widget_not_playing">Nu se redă</string>
     <string name="widget_placeholder_subtitle">Deschideți SMuzy</string>

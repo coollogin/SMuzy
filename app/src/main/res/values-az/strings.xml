@@ -675,8 +675,6 @@
     <string name="track_info_transcoded_content_type">Transkodlaşdırılmış məzmun növü</string>
     <string name="track_info_transcoded_suffix">Transkodlaşdırılmış faylın uzantısı</string>
     <string name="track_info_year">İl</string>
-    <string name="undraw_page">unDraw</string>
-    <string name="undraw_thanks">İllüstrasiyaları ilə bu tətbiqi daha gözəl etməyə kömək edən unDraw layihəsinə xüsusi təşəkkür edirik.</string>
     <string name="widget_label">SMuzy viceti</string>
     <string name="widget_not_playing">Səsləndirilmir</string>
     <string name="widget_placeholder_subtitle">SMuzy tətbiqini aç</string>

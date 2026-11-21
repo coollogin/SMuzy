@@ -102,7 +102,10 @@ object Preferences {
     private const val SONG_RATING_PER_ITEM = "song_rating_per_item"
     private const val RATING_PER_ITEM = "rating_per_item"
     private const val NEXT_UPDATE_CHECK = "next_update_check"
+    private const val NEXT_UPDATE_REMINDER = "next_update_reminder"
     private const val GITHUB_UPDATE_CHECK = "github_update_check"
+    private const val UPDATE_CHECK_INTERVAL_MS = 15 * 60 * 1000L
+    private const val UPDATE_REMINDER_INTERVAL_MS = 24 * 60 * 60 * 1000L
     private const val CONTINUOUS_PLAY = "continuous_play"
     private const val NUMBER_TRACKS_KEEP_IN_QUEUE = "number_tracks_keep_in_queue"
     private const val FALLBACK_TO_RANDOM_TRACKS = "fallback_to_random_tracks"
@@ -1015,15 +1018,27 @@ object Preferences {
     }
 
     @JvmStatic
-    fun showUpdateDialog(): Boolean {
+    fun shouldCheckForUpdates(): Boolean {
         return App.getInstance().preferences.getLong(
                 NEXT_UPDATE_CHECK, 0
-        ) + 86400000 < System.currentTimeMillis()
+        ) + UPDATE_CHECK_INTERVAL_MS < System.currentTimeMillis()
+    }
+
+    @JvmStatic
+    fun setUpdateCheckedNow() {
+        App.getInstance().preferences.edit().putLong(NEXT_UPDATE_CHECK, System.currentTimeMillis()).apply()
+    }
+
+    @JvmStatic
+    fun shouldShowUpdateDialog(): Boolean {
+        return App.getInstance().preferences.getLong(
+                NEXT_UPDATE_REMINDER, 0
+        ) + UPDATE_REMINDER_INTERVAL_MS < System.currentTimeMillis()
     }
 
     @JvmStatic
     fun setUpdateReminder() {
-        App.getInstance().preferences.edit().putLong(NEXT_UPDATE_CHECK, System.currentTimeMillis()).apply()
+        App.getInstance().preferences.edit().putLong(NEXT_UPDATE_REMINDER, System.currentTimeMillis()).apply()
     }
 
     // Off until the user turns them on, so an update starts nothing on the local network by itself.

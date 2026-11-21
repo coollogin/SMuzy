@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.2 — 2026-11-22
+
+### Fixes
+
+- Update checks now run again shortly after launch instead of waiting a full day, and a failed GitHub request no longer postpones the next check.
+- Settings → Updates has a new "Check for updates now" action with progress, success and error feedback.
+- The USER_TAG cloud is refreshed at most once per day and checks its freshness when the Library screen returns to the foreground.
+- The About section now shows the current version and describes SMuzy as a beautiful and lightweight open-source Subsonic client. The unDraw credit was removed.
+
 ## 1.0.1 — 2026-11-21
 
 ### Fixes

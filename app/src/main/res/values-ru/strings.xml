@@ -444,7 +444,7 @@
     <string name="server_unreachable_dialog_positive_button">Всё равно продолжить</string>
     <string name="server_unreachable_dialog_summary">Сервер недоступен. Если продолжить, это окно не будет появляться час.</string>
     <string name="server_unreachable_dialog_title">Сервер недоступен</string>
-    <string name="settings_about_summary">SMuzy - лёгкий open-source клиент Subsonic для Android.</string>
+    <string name="settings_about_summary">SMuzy – красивый и легкий open-source клиент Subsonic для Android.</string>
     <string name="settings_about_title">О приложении</string>
     <string name="settings_author_title">Автор</string>
     <string name="settings_always_on_display">Always On Display</string>
@@ -492,7 +492,12 @@
     <string name="settings_support_discussion_link" translatable="false">mailto:houseofcool@ya.ru</string>
     <string name="settings_github_update">Обновления</string>
     <string name="settings_github_update_title">Проверка обновлений на GitHub</string>
-    <string name="settings_github_update_summary">Автоматически проверять наличие новых APK на GitHub.</string>
+    <string name="settings_github_update_summary">Проверять наличие новых версий SMuzy при запуске приложения.</string>
+    <string name="settings_github_update_check_now">Проверить обновления сейчас</string>
+    <string name="settings_github_update_check_now_summary">Проверить GitHub сразу, не дожидаясь следующей автоматической проверки.</string>
+    <string name="settings_github_update_checking">Проверка обновлений…</string>
+    <string name="settings_github_update_check_failed">Не удалось проверить обновления. Проверьте подключение и повторите попытку.</string>
+    <string name="settings_github_update_up_to_date">Установлена последняя версия (%1$s).</string>
     <string name="settings_support_summary">Связаться с автором</string>
     <string name="settings_support_title">Поддержка</string>
     <string name="settings_scan_result">Сканирование: %1$d треков</string>
@@ -510,7 +515,7 @@
     <string name="settings_music_directory_summary">Отображать раздел с папками (сервер должен поддерживать это).</string>
     <string name="settings_cover_animation">Анимация обложки</string>
     <string name="settings_cover_animation_summary">Показывать обложку как конверт с выезжающей виниловой пластинкой на экране «Сейчас играет».</string>
-    <string name="settings_visualizer">Визуализатор звука</string>
+    <string name="settings_visualizer">Графический эквалайзер</string>
     <string name="settings_visualizer_summary">Показывать спектр под обложкой на экране «Сейчас играет»; строится по реально воспроизводимому звуку.</string>
     <string name="settings_visualizer_type">Тип визуализатора</string>
     <string name="settings_podcast">Показывать подкасты</string>
@@ -616,7 +621,7 @@
     <string name="settings_title_ui_landscape_items_per_row">Элементов в строке (альбомная)</string>
     <string name="settings_title_ui_landscape_items_per_row_dialog">Кол-во элементов в строке</string>
     <string name="settings_transcoded_download">Скачивание транскода</string>
-    <string name="settings_version_summary" translatable="false">3.1.0</string>
+    <string name="settings_version_summary" translatable="false">1.0.2</string>
     <string name="settings_version_title">Версия</string>
     <string name="settings_wifi_only_summary">Спрашивать разрешение перед стримингом в мобильной сети.</string>
     <string name="settings_wifi_only_title">Предупреждение "Только Wi-Fi"</string>
@@ -716,9 +721,6 @@
     <string name="track_info_transcoded_content_type">Тип транскода</string>
     <string name="track_info_transcoded_suffix">Суффикс транскода</string>
     <string name="track_info_year">Год</string>
-    <string name="undraw_page">unDraw</string>
-    <string name="undraw_thanks">Спасибо unDraw за отличные иллюстрации!</string>
-    <string name="undraw_url" translatable="false">https://undraw.co/</string>
     <string name="widget_label">Виджет SMuzy</string>
     <string name="widget_not_playing">Не играет</string>
     <string name="widget_placeholder_subtitle">Открыть SMuzy</string>

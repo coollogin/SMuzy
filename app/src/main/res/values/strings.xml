@@ -464,7 +464,7 @@
     <string name="server_unreachable_dialog_positive_button">Continue anyway</string>
     <string name="server_unreachable_dialog_summary">The requested server is unavailable. If you choose to continue this dialog will not appear for the next hour.</string>
     <string name="server_unreachable_dialog_title">Server unreachable</string>
-    <string name="settings_about_summary">SMuzy is an open source and lightweight music client for Subsonic, designed and built natively for Android.</string>
+    <string name="settings_about_summary">SMuzy is a beautiful and lightweight open-source Subsonic client for Android.</string>
     <string name="settings_about_title">About</string>
     <string name="settings_author_title">Author</string>
     <string name="settings_author_summary" translatable="false">coollogin</string>
@@ -513,7 +513,12 @@
     <string name="settings_support_discussion_link" translatable="false">mailto:houseofcool@ya.ru</string>
     <string name="settings_github_update">Updates</string>
     <string name="settings_github_update_title">Check github for release updates</string>
-    <string name="settings_github_update_summary">Automatically check GitHub for new SMuzy releases once a day. Turn off to disable automatic update checks.</string>
+    <string name="settings_github_update_summary">Check GitHub for new SMuzy releases when the app starts. Turn off to disable automatic update checks.</string>
+    <string name="settings_github_update_check_now">Check for updates now</string>
+    <string name="settings_github_update_check_now_summary">Check GitHub immediately instead of waiting for the next automatic check.</string>
+    <string name="settings_github_update_checking">Checking for updates…</string>
+    <string name="settings_github_update_check_failed">Could not check for updates. Check your connection and try again.</string>
+    <string name="settings_github_update_up_to_date">You are running the latest version (%1$s).</string>
     <string name="settings_support_summary">Contact the author</string>
     <string name="settings_support_title">User support</string>
     <string name="settings_scan_result">Scanning: counting %1$d tracks</string>
@@ -651,7 +656,7 @@
     <string name="settings_title_ui_landscape_items_per_row">Items per row on landscape</string>
     <string name="settings_title_ui_landscape_items_per_row_dialog">Number of items per row</string>
     <string name="settings_transcoded_download">Transcoded download</string>
-    <string name="settings_version_summary" translatable="false">3.1.0</string>
+    <string name="settings_version_summary" translatable="false">1.0.2</string>
     <string name="settings_version_title">Version</string>
     <string name="settings_wifi_only_summary">Ask for user confirmation before streaming over mobile network.</string>
     <string name="settings_wifi_only_title">Stream via Wi-Fi only alert</string>
@@ -752,9 +757,6 @@
     <string name="track_info_transcoded_content_type">Transcoded content type</string>
     <string name="track_info_transcoded_suffix">Transcoded suffix</string>
     <string name="track_info_year">Year</string>
-    <string name="undraw_page">unDraw</string>
-    <string name="undraw_thanks">A special thanks goes to unDraw without whose illustrations we could not have made this application more beautiful.</string>
-    <string name="undraw_url" translatable="false">https://undraw.co/</string>
     <string name="widget_label">SMuzy Widget</string>
     <string name="widget_not_playing">Not playing</string>
     <string name="widget_placeholder_subtitle">Open SMuzy</string>

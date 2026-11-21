@@ -23,6 +23,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SystemRepository {
+    private static final String TAG = "SystemRepository";
+
     public void checkUserCredential(SystemCallback callback) {
         checkUserCredential(App.getSubsonicClientInstance(false), callback);
     }
@@ -131,11 +133,17 @@ public class SystemRepository {
                 .enqueue(new Callback<LatestRelease>() {
                     @Override
                     public void onResponse(@NonNull Call<LatestRelease> call, @NonNull Response<LatestRelease> response) {
-                        latestRelease.postValue(response.isSuccessful() ? response.body() : null);
+                        if (response.isSuccessful() && response.body() != null) {
+                            latestRelease.postValue(response.body());
+                        } else {
+                            Log.w(TAG, "Update check failed: HTTP " + response.code());
+                            latestRelease.postValue(null);
+                        }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<LatestRelease> call, @NonNull Throwable t) {
+                        Log.w(TAG, "Update check failed", t);
                         latestRelease.postValue(null);
                     }
                 });

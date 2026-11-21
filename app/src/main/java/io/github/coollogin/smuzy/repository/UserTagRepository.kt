@@ -211,7 +211,7 @@ class UserTagRepository {
         const val TAG = "UserTagRepository"
         val IO = Executors.newSingleThreadExecutor()
         val generationCounter = AtomicInteger()
-        const val CACHE_TTL_MS = 12 * 60 * 60 * 1000L
+        const val CACHE_TTL_MS = 24 * 60 * 60 * 1000L
         const val ALBUM_PAGE_SIZE = 500
         const val MAX_ALBUM_OFFSET = 100_000
     }

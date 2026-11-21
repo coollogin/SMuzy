@@ -710,11 +710,18 @@ public class MainActivity extends BaseActivity {
     }
 
     private void checkUpdate() {
-        if (!BuildConfig.FLAVOR.equals("play") && Preferences.isGithubUpdateEnabled() && Preferences.showUpdateDialog()) {
-            mainViewModel.checkUpdate().observe(this, latestRelease -> {
-                Preferences.setUpdateReminder();
+        if (!BuildConfig.FLAVOR.equals("play") && Preferences.isGithubUpdateEnabled() && Preferences.shouldCheckForUpdates()) {
+            Preferences.setUpdateCheckedNow();
 
-                if (latestRelease != null && UpdateUtil.showUpdateDialog(latestRelease)) {
+            mainViewModel.checkUpdate().observe(this, latestRelease -> {
+                // A failed or empty response leaves the short retry window in place instead of
+                // postponing the next check for a day.
+                if (latestRelease == null) {
+                    return;
+                }
+
+                if (UpdateUtil.showUpdateDialog(latestRelease) && Preferences.shouldShowUpdateDialog()) {
+                    Preferences.setUpdateReminder();
                     GithubUpdateDialog dialog = new GithubUpdateDialog(latestRelease);
                     dialog.show(getSupportFragmentManager(), null);
                 }

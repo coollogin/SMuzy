@@ -687,8 +687,6 @@
     <string name="track_info_transcoded_content_type">Innehållstyp efter omkodning</string>
     <string name="track_info_transcoded_suffix">Filändelse efter omkodning</string>
     <string name="track_info_year">År</string>
-    <string name="undraw_page">unDraw</string>
-    <string name="undraw_thanks">Ett särskilt tack till unDraw, vars illustrationer har gjort appen vackrare.</string>
     <string name="widget_label">SMuzy-widget</string>
     <string name="widget_not_playing">Spelar inte</string>
     <string name="widget_placeholder_subtitle">Öppna SMuzy</string>

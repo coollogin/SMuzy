@@ -120,6 +120,7 @@ public class LibraryFragment extends Fragment implements ClickCallback {
     public void onResume() {
         super.onResume();
         refreshPlaylistView();
+        userTagViewModel.load(false);
     }
 
     @Override

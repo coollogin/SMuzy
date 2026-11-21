@@ -347,7 +347,7 @@
     <string name="settings_title_transcoding_download">Dönüştürme İndir</string>
     <string name="settings_title_ui">Arayüz</string>
     <string name="settings_transcoded_download">Dönüştürülmüş indirme</string>
-    <string name="settings_version_summary" translatable="false">3.1.0</string>
+    <string name="settings_version_summary" translatable="false">1.0.2</string>
     <string name="settings_version_title">Sürüm</string>
     <string name="settings_wifi_only_summary">Mobil ağ üzerinden yayın yapmadan önce kullanıcı onayı iste.</string>
     <string name="settings_wifi_only_title">Yalnızca Wi-Fi ile yayın uyarısı</string>
@@ -423,9 +423,6 @@
     <string name="track_info_transcoded_content_type">Dönüştürülmüş içerik türü</string>
     <string name="track_info_transcoded_suffix">Dönüştürülmüş uzantı</string>
     <string name="track_info_year">Yıl</string>
-    <string name="undraw_page">unDraw</string>
-    <string name="undraw_thanks">İllüstrasyonlarıyla bu uygulamayı daha güzel hale getirmemize yardımcı olan unDraw’a özel teşekkürler.</string>
-    <string name="undraw_url">https://undraw.co/</string>
     <string name="home_sync_starred_albums_title">Yıldızlı Albümleri Senkronize Et</string>
     <string name="widget_label">SMuzy Widget</string>
     <string name="widget_not_playing">Şu an oynatılmıyor</string>

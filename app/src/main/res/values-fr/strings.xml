@@ -620,8 +620,6 @@
     <string name="track_info_transcoded_content_type">Type de contenu de transcodage</string>
     <string name="track_info_transcoded_suffix">Suffixe de transcodage</string>
     <string name="track_info_year">Année</string>
-    <string name="undraw_page">unDraw</string>
-    <string name="undraw_thanks">Un grand merci à unDraw, nous n\'aurions pas pu rendre cette application aussi belle sans leurs illustrations.</string>
     <string name="widget_label">Widget SMuzy</string>
     <string name="widget_not_playing">Pas de lecture</string>
     <string name="widget_placeholder_subtitle">Ouvrir SMuzy</string>

@@ -525,7 +525,7 @@
     <string name="settings_title_ui_landscape_items_per_row">Elementos por fila en modo horizontal</string>
     <string name="settings_title_ui_landscape_items_per_row_dialog">Número de elementos por fila</string>
     <string name="settings_transcoded_download">Descarga transcodificada</string>
-    <string name="settings_version_summary" translatable="false">3.1.0</string>
+    <string name="settings_version_summary" translatable="false">1.0.2</string>
     <string name="settings_version_title">Versión</string>
     <string name="settings_wifi_only_summary">Preguntar por confirmanción antes de transmitir usando datos mobiles.</string>
     <string name="settings_wifi_only_title">Alerta de transmitir usando solamente Wi-Fi</string>
@@ -623,9 +623,6 @@
     <string name="track_info_transcoded_content_type">Tipo de contenido transcodificado</string>
     <string name="track_info_transcoded_suffix">Formato de transcodificación</string>
     <string name="track_info_year">Año</string>
-    <string name="undraw_page">unDraw</string>
-    <string name="undraw_thanks">Un agradecimiento especial a unDraw, sin sus ilustraciones no podríamos haber hecho esta aplicación más hermosa.</string>
-    <string name="undraw_url" translatable="false">https://undraw.co/</string>
     <string name="widget_label">Widget de SMuzy</string>
     <string name="widget_not_playing">Nada reproduciendo</string>
     <string name="widget_placeholder_subtitle">Abrir SMuzy</string>

@@ -392,8 +392,6 @@
     <string name="track_info_year">Año</string>
     <string name="track_info_summary_transcoding_codec">La aplicación pedirá al servidor transcodificar el archivo. El códec solicitado por el usuario es %1$s, mientras que la tasa de bits será la misma que la del archivo de origen. La posible transcodificación del archivo al formato seleccionado dependerá del servidor, que podrá soportar, o no, la operación.</string>
     <string name="track_info_title">Título</string>
-    <string name="undraw_page">unDraw</string>
-    <string name="undraw_thanks">Agradecimientos a unDraw, ya que sin sus ilustraciones no podríamos haber hecho esta aplicación más bonita.</string>
     <string name="settings_music_library_all">Todas las bibliotecas</string>
     <string name="settings_scrobble_title">Habilitar el rastreo de música (scrobbling)</string>
     <string name="settings_streaming_cache_size">Tamaño de la caché de streaming</string>
@@ -402,7 +400,6 @@
     <string name="settings_sub_summary_scrobble">Debe saber que el scrobbling necesita que el servidor tenga habilitada esta característica</string>
     <string name="settings_summary_syncing">Devuelve el estado de la cola de reproducción para este usuario. Esto incluye las pistas en la cola, la pista que se está reproduciendo actualmente y su posición. El servidor debe soportar esta característica.</string>
     <string name="settings_summary_streaming_cache_size">%1$s\nEn uso:   %2$s MiB</string>
-    <string name="undraw_url">https://undraw.co/</string>
     <string name="track_info_track_number">Número de pista</string>
     <string name="settings_item_rating_summary">Si se habilita, se mostrará la valoración del elemento y si está marcado como favorito.</string>
     <string name="settings_queue_syncing_summary">Si se habilita, el usuario podrá guardar la cola de reproducción y restaurarla cuando abra la aplicación.</string>

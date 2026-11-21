@@ -525,7 +525,7 @@
     <string name="settings_title_ui_landscape_items_per_row">Elements per fila en apaïsat</string>
     <string name="settings_title_ui_landscape_items_per_row_dialog">Nombre d\'elements per fila</string>
     <string name="settings_transcoded_download">Baixada transcodificada</string>
-    <string name="settings_version_summary" translatable="false">3.1.0</string>
+    <string name="settings_version_summary" translatable="false">1.0.2</string>
     <string name="settings_version_title">Versió</string>
     <string name="settings_wifi_only_summary">Demana la confirmació de l\'usuari abans d\'iniciar la transmissió per la xarxa mòbil.</string>
     <string name="settings_wifi_only_title">Alerta de transmissió només per wifi</string>
@@ -624,9 +624,6 @@
     <string name="track_info_transcoded_content_type">Tipus de contingut transcodificat</string>
     <string name="track_info_transcoded_suffix">Sufix de la transcodificació</string>
     <string name="track_info_year">Any</string>
-    <string name="undraw_page">unDraw</string>
-    <string name="undraw_thanks">Volem donar un agraïment especial a UnDraw; aquesta aplicació no seria tan bonica sense les seves il·lustracions.</string>
-    <string name="undraw_url" translatable="false">https://undraw.co/</string>
     <string name="widget_label">Giny del SMuzy</string>
     <string name="widget_not_playing">No hi ha res en reproducció</string>
     <string name="widget_placeholder_subtitle">Obre el SMuzy</string>
