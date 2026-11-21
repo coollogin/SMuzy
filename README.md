@@ -83,7 +83,7 @@ Bug reports and pull requests are welcome at [github.com/coollogin/SMuzy](https:
 
 SMuzy is released under the [GNU General Public License v3.0](LICENSE).
 
-SMuzy is based on an earlier open-source Subsonic client. The original authors and contributors retain the rights to their work; their copyright notices and the GPL license are preserved in [LICENSE](LICENSE).
+SMuzy is based on an earlier open-source Subsonic client. SMuzy modifications are Copyright © 2026 coollogin. The original authors and contributors retain the rights to their work; their copyright notices and the GPL license are preserved in [LICENSE](LICENSE).
 
 ## Author
 
