@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.0.4 — 2026-11-23
+
+### Fixes
+
+- The "Starred tracks" and "Top songs of favorite artists" rows on Home no longer disappear after visiting Library and returning.
+- The "Recently played" Home section is now titled "Недавно играло" in Russian.
+
+### Features
+
+- New Settings → UI toggle "Radio stations on Home" (off by default) that shows or hides the radio stations section for your favorite artists.
+
 ## 1.0.3 — 2026-11-22
 
 ### Fixes
