@@ -75,6 +75,7 @@ object Preferences {
     private const val VISUALIZER_DEFAULTS_MIGRATED = "visualizer_defaults_migrated"
     private const val PODCAST_SECTION_VISIBILITY = "podcast_section_visibility"
     private const val RADIO_SECTION_VISIBILITY = "radio_section_visibility"
+    private const val HOME_RADIO_STATIONS_VISIBILITY = "home_radio_stations_visibility"
     private const val AUTO_DOWNLOAD_LYRICS = "auto_download_lyrics"
     private const val MUSIC_DIRECTORY_SECTION_VISIBILITY = "music_directory_section_visibility"
     private const val REPLAY_GAIN_MODE = "replay_gain_mode"
@@ -843,6 +844,11 @@ object Preferences {
     @JvmStatic
     fun setRadioSectionHidden() {
         App.getInstance().preferences.edit().putBoolean(RADIO_SECTION_VISIBILITY, false).apply()
+    }
+
+    @JvmStatic
+    fun isHomeRadioStationsVisible(): Boolean {
+        return App.getInstance().preferences.getBoolean(HOME_RADIO_STATIONS_VISIBILITY, false)
     }
 
     @JvmStatic

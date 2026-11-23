@@ -158,6 +158,12 @@
             android:key="radio_section_visibility" />
 
         <SwitchPreference
+            android:title="@string/settings_home_radio_stations"
+            android:defaultValue="false"
+            android:summary="@string/settings_home_radio_stations_summary"
+            android:key="home_radio_stations_visibility" />
+
+        <SwitchPreference
             android:title="@string/settings_auto_download_lyrics"
             android:defaultValue="false"
             android:summary="@string/settings_auto_download_lyrics_summary"

@@ -556,6 +556,8 @@
     <string name="settings_custom_command_second_button">Вторая своя команда</string>
     <string name="settings_radio">Показывать радио</string>
     <string name="settings_radio_summary">Отображать раздел радио (требуется перезапуск).</string>
+    <string name="settings_home_radio_stations">Радиостанции на главной</string>
+    <string name="settings_home_radio_stations_summary">Отображать раздел радиостанций на главной странице.</string>
     <string name="settings_enable_drawer_on_landscape">Боковое меню в портрете</string>
     <string name="settings_enable_drawer_on_landscape_summary">Разблокировать выдвижное меню в портретной ориентации.</string>
     <string name="settings_hide_bottom_navbar_on_portrait">Скрыть нижнюю панель [Бета]</string>

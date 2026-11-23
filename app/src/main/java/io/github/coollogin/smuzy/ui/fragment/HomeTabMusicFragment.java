@@ -694,6 +694,11 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
     }
 
     private void initArtistRadio() {
+        if (!Preferences.isHomeRadioStationsVisible()) {
+            bind.homeRadioArtistSector.setVisibility(View.GONE);
+            bind.afterRadioArtistDivider.setVisibility(View.GONE);
+            return;
+        }
         if (homeViewModel.checkHomeSectorVisibility(Constants.HOME_SECTOR_RADIO_STATION)) return;
 
         bind.radioArtistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));

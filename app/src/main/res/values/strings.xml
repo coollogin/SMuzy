@@ -578,6 +578,8 @@
 
     <string name="settings_radio">Show radio</string>
     <string name="settings_radio_summary">If enabled, show the radio section. Restart the app for it to take full effect.</string>
+    <string name="settings_home_radio_stations">Radio stations on Home</string>
+    <string name="settings_home_radio_stations_summary">If enabled, show the radio stations section on the Home page.</string>
     <string name="settings_enable_drawer_on_landscape">Enable drawer on portrait</string>
     <string name="settings_enable_drawer_on_landscape_summary">Unlocks the lateral landscape menu drawer on portrait.</string>
     <string name="settings_hide_bottom_navbar_on_portrait">Hide bottom navbar on portrait [Experimental]</string>
