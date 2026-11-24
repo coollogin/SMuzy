@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.0.5 — 2026-11-25
+
+### Fixes
+
+- The Now Playing tap hint icon is hidden after 2 seconds instead of 10.
+- Signing in to another server only switches the saved session once the server accepts the credentials. An unreachable public address falls back to the local one, and a rejected login no longer signs the current server out.
+- Logging out always lands on the login screen, even when a Home or Library tab was restored, and a leftover "open login" intent no longer returns a signed-in user to the server list after a configuration change.
+
+### Improvements
+
+- The spectrum visualizer follows the music much more closely: it shows the frequencies that actually dominate each moment instead of lighting up every band. It uses a stronger FFT with the peak bin per band, a relative display window with fast attack and slow release, and a spectral tilt so highs can stand out against bass.
+- Both visualizer styles look smoother, with accent gradients, a soft glow on the pedestal bars and faded edges on the wave.
+
 ## 1.0.4 — 2026-11-23
 
 ### Fixes
