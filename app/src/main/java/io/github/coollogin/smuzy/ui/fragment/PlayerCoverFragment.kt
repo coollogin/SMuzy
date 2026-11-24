@@ -104,7 +104,10 @@ class PlayerCoverFragment : Fragment() {
         refreshUiPreferences()
 
         binding.nowPlayingArtworkPager.apply {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            // The ViewPager2 page detaches this view while the lyrics page is shown. A composition
+            // that survives detach stops repainting on reattach (the vinyl frame loop keeps running),
+            // so rebuild it whenever the view leaves the window.
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnDetachedFromWindow)
             setContent {
                 NowPlayingArtworkPager(
                     queue = queueItems,
