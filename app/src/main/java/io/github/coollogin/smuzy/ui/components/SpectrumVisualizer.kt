@@ -34,8 +34,14 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 
 private const val BANDS = 32
-private const val ANALYSIS_INTERVAL_NANOS = 33_000_000L
+private const val ANALYSIS_INTERVAL_NANOS = 16_000_000L
 private const val FRESH_DATA_MS = 400L
+// Display window below the current frame peak. Music fills every band at once, so mapping the
+// absolute level makes the whole strip glow; a relative window leaves only the bands that
+// actually dominate right now standing out.
+private const val DISPLAY_SPAN = 0.3f
+private const val PEAK_ATTACK = 22f
+private const val PEAK_RELEASE_SECONDS = 1.4f
 
 @Composable
 fun SpectrumVisualizer(
@@ -60,6 +66,7 @@ fun SpectrumVisualizer(
     LaunchedEffect(Unit) {
         var lastFrame = 0L
         var lastAnalysis = 0L
+        var peakRef = 0f
         while (isActive) {
             val playingNow = playing.value
             val fresh = SpectrumTapData.millisSinceLastWrite() < FRESH_DATA_MS
@@ -85,9 +92,22 @@ fun SpectrumVisualizer(
 
                     val targetAlpha = if (playingNow && fresh) 1f else 0f
                     alpha += (targetAlpha - alpha) * (1f - exp(-dt * 9f))
+
+                    var peak = 0f
                     for (band in 0 until BANDS) {
-                        val speed = if (target[band] > shown[band]) 34f else 11f
-                        shown[band] += (target[band] - shown[band]) * (1f - exp(-dt * speed))
+                        if (target[band] > peak) peak = target[band]
+                    }
+                    peakRef = if (peak > peakRef) {
+                        peakRef + (peak - peakRef) * (1f - exp(-dt * PEAK_ATTACK))
+                    } else {
+                        peakRef * exp(-dt / PEAK_RELEASE_SECONDS)
+                    }
+                    val windowFloor = (peakRef - DISPLAY_SPAN).coerceAtLeast(0f)
+
+                    for (band in 0 until BANDS) {
+                        val level = ((target[band] - windowFloor) / DISPLAY_SPAN).coerceIn(0f, 1f)
+                        val speed = if (level > shown[band]) 58f else 9f
+                        shown[band] += (level - shown[band]) * (1f - exp(-dt * speed))
                     }
                     displayed = shown.copyOf()
                 }
@@ -97,6 +117,7 @@ fun SpectrumVisualizer(
 
             if (!playingNow && alpha < 0.01f && displayed.any { it > 0.01f }) {
                 alpha = 0f
+                peakRef = 0f
                 shown.fill(0f)
                 displayed = FloatArray(BANDS)
             }
@@ -120,23 +141,28 @@ fun SpectrumVisualizer(
 
 private fun DrawScope.drawPedestal(bands: FloatArray, accent: Color) {
     val axis = size.height / 2f
-    val maxAmplitude = size.height / 2f - size.height * 0.05f
-    val gap = max(1f, size.width * 0.011f)
-    val barWidth = max(1.2f, (size.width - gap * (bands.size - 1)) / bands.size)
-    val radius = min(barWidth / 2f, size.height * 0.12f)
+    val maxAmplitude = size.height / 2f - size.height * 0.06f
+    val gap = max(1.2f, size.width * 0.0105f)
+    val barWidth = max(1.4f, (size.width - gap * (bands.size - 1)) / bands.size)
+    val radius = min(barWidth / 2f, size.height * 0.09f)
+    val glow = accent.copy(alpha = 0.07f)
 
     drawLine(
-        color = Color.White.copy(alpha = 0.08f),
+        brush = Brush.horizontalGradient(
+            0f to accent.copy(alpha = 0f),
+            0.5f to accent.copy(alpha = 0.3f),
+            1f to accent.copy(alpha = 0f)
+        ),
         start = Offset(0f, axis),
         end = Offset(size.width, axis),
-        strokeWidth = 1f
+        strokeWidth = max(1f, size.height * 0.016f)
     )
 
     val brush = Brush.verticalGradient(
         colors = listOf(
-            accent.copy(alpha = 0.16f),
+            accent.copy(alpha = 0.2f),
             accent,
-            accent.copy(alpha = 0.16f)
+            accent.copy(alpha = 0.2f)
         ),
         startY = axis - maxAmplitude,
         endY = axis + maxAmplitude
@@ -144,7 +170,13 @@ private fun DrawScope.drawPedestal(bands: FloatArray, accent: Color) {
 
     var x = 0f
     for (band in bands.indices) {
-        val amplitude = max(0.9f, bands[band].coerceIn(0f, 1f) * maxAmplitude)
+        val amplitude = max(1.2f, bands[band].coerceIn(0f, 1f) * maxAmplitude)
+        drawRoundRect(
+            color = glow,
+            topLeft = Offset(x - 1f, axis - amplitude - 2f),
+            size = Size(barWidth + 2f, amplitude * 2f + 4f),
+            cornerRadius = CornerRadius(radius + 2f)
+        )
         drawRoundRect(
             brush = brush,
             topLeft = Offset(x, axis - amplitude),
@@ -153,6 +185,8 @@ private fun DrawScope.drawPedestal(bands: FloatArray, accent: Color) {
         )
         x += barWidth + gap
     }
+
+    drawEdgeFade()
 }
 
 private fun DrawScope.drawWave(bands: FloatArray, accent: Color) {
@@ -175,21 +209,57 @@ private fun DrawScope.drawWave(bands: FloatArray, accent: Color) {
         path = buildWaveFill(xs, top, bottom),
         brush = Brush.verticalGradient(
             colors = listOf(
-                accent.copy(alpha = 0.10f),
-                accent.copy(alpha = 0.62f),
-                accent.copy(alpha = 0.10f)
+                accent.copy(alpha = 0.08f),
+                accent.copy(alpha = 0.55f),
+                accent.copy(alpha = 0.08f)
             ),
             startY = axis - maxAmplitude,
             endY = axis + maxAmplitude
         )
     )
 
+    val topLine = buildCurve(xs, top)
+    drawLine(
+        brush = Brush.horizontalGradient(
+            0f to accent.copy(alpha = 0f),
+            0.5f to accent.copy(alpha = 0.3f),
+            1f to accent.copy(alpha = 0f)
+        ),
+        start = Offset(0f, axis),
+        end = Offset(size.width, axis),
+        strokeWidth = max(1f, size.height * 0.016f)
+    )
+    drawPath(
+        path = topLine,
+        color = accent.copy(alpha = 0.06f),
+        style = Stroke(width = size.height * 0.24f)
+    )
+    drawPath(
+        path = topLine,
+        color = accent.copy(alpha = 0.12f),
+        style = Stroke(width = size.height * 0.14f)
+    )
+    drawPath(
+        path = topLine,
+        color = accent.copy(alpha = 0.95f),
+        style = Stroke(width = max(1.6f, size.height * 0.052f))
+    )
+    drawPath(
+        path = buildCurve(xs, bottom),
+        color = accent.copy(alpha = 0.3f),
+        style = Stroke(width = max(1f, size.height * 0.035f))
+    )
+
+    drawEdgeFade(edge = 0.11f)
+}
+
+private fun DrawScope.drawEdgeFade(edge: Float = 0.1f) {
     drawRect(
         brush = Brush.horizontalGradient(
             colorStops = arrayOf(
                 0f to Color.Transparent,
-                0.12f to Color.Black,
-                0.88f to Color.Black,
+                edge to Color.Black,
+                1f - edge to Color.Black,
                 1f to Color.Transparent
             ),
             startX = 0f,
@@ -197,30 +267,6 @@ private fun DrawScope.drawWave(bands: FloatArray, accent: Color) {
         ),
         size = size,
         blendMode = BlendMode.DstIn
-    )
-
-    drawLine(
-        color = Color.White.copy(alpha = 0.06f),
-        start = Offset(0f, axis),
-        end = Offset(size.width, axis),
-        strokeWidth = 1f
-    )
-
-    val topLine = buildCurve(xs, top)
-    drawPath(
-        path = topLine,
-        color = accent.copy(alpha = 0.12f),
-        style = Stroke(width = size.height * 0.18f)
-    )
-    drawPath(
-        path = topLine,
-        color = accent.copy(alpha = 0.92f),
-        style = Stroke(width = max(1.2f, size.height * 0.05f))
-    )
-    drawPath(
-        path = buildCurve(xs, bottom),
-        color = accent.copy(alpha = 0.28f),
-        style = Stroke(width = max(1f, size.height * 0.035f))
     )
 }
 

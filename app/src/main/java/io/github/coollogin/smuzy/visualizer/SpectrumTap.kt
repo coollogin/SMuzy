@@ -15,7 +15,7 @@ import kotlin.math.max
  * Both live in the same process, so no binder or service plumbing is needed.
  */
 object SpectrumTapData {
-    const val CAPTURE_SIZE = 1024
+    const val CAPTURE_SIZE = 2048
     private const val RING_SIZE = 8192
 
     private val lock = Any()

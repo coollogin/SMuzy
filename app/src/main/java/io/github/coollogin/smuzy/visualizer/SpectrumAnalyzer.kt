@@ -1,11 +1,11 @@
 package io.github.coollogin.smuzy.visualizer
 
 import kotlin.math.PI
+import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.log10
 import kotlin.math.min
 import kotlin.math.pow
-import kotlin.math.roundToInt
 import kotlin.math.sin
 import kotlin.math.sqrt
 
@@ -15,10 +15,17 @@ import kotlin.math.sqrt
  */
 class SpectrumAnalyzer(private val bandCount: Int = 32) {
     private companion object {
-        const val FFT_SIZE = 1024
+        const val FFT_SIZE = 2048
         const val MIN_FREQUENCY = 40.0
         const val MAX_FREQUENCY = 16_000.0
         const val DB_FLOOR = -60.0
+        // Headroom above 0 dBFS so the band tilt cannot clip a loud tone at the ceiling.
+        const val DB_CEILING = 20.0
+        // A Hann window spreads a sine over three main-lobe bins carrying ~1.5x the peak power.
+        const val LOBE_POWER_GAIN = 1.5
+        // Music loses roughly 1 dB per band towards the top; the tilt puts instruments on the
+        // same footing so a hi-hat can stand above a bass line.
+        const val TILT_DB_PER_BAND = 0.8
     }
 
     private val window = DoubleArray(FFT_SIZE) {
@@ -26,8 +33,9 @@ class SpectrumAnalyzer(private val bandCount: Int = 32) {
     }
     private val re = DoubleArray(FFT_SIZE)
     private val im = DoubleArray(FFT_SIZE)
-    private val bandStart = IntArray(bandCount)
-    private val bandEnd = IntArray(bandCount)
+    private val power = DoubleArray(FFT_SIZE / 2)
+    private val bandLow = DoubleArray(bandCount)
+    private val bandHigh = DoubleArray(bandCount)
     private var cachedRate = 0
 
     init {
@@ -54,35 +62,52 @@ class SpectrumAnalyzer(private val bandCount: Int = 32) {
         }
         fft(re, im)
 
+        val half = FFT_SIZE / 2
+        for (bin in 1 until half) {
+            power[bin] = re[bin] * re[bin] + im[bin] * im[bin]
+        }
+        power[0] = 0.0
+
         val bands = min(bandCount, out.size)
+        val scale = 4.0 / (FFT_SIZE * sqrt(LOBE_POWER_GAIN))
         for (band in 0 until bands) {
-            var peakPower = 0.0
-            for (bin in bandStart[band]..bandEnd[band]) {
-                val power = re[bin] * re[bin] + im[bin] * im[bin]
-                if (power > peakPower) peakPower = power
-            }
-            // The Hann window halves the coherent gain; 4/N restores a full scale sine to 0 dB.
-            val magnitude = sqrt(peakPower) * 4.0 / FFT_SIZE
-            val db = 20.0 * log10(magnitude + 1e-9)
-            out[band] = ((db - DB_FLOOR) / -DB_FLOOR).coerceIn(0.0, 1.0).pow(0.8).toFloat()
+            val low = bandLow[band]
+            val high = bandHigh[band]
+            // The strongest bin, not the band total: a tonal peak should read the same in a wide
+            // high band as in a narrow low one, and the broadband "carpet" should stay low.
+            val magnitude = sqrt(bandPeak(low, high)) * scale
+            val db = 20.0 * log10(magnitude + 1e-9) + band * TILT_DB_PER_BAND
+            out[band] = ((db - DB_FLOOR) / (DB_CEILING - DB_FLOOR)).coerceIn(0.0, 1.0).toFloat()
         }
         for (band in bands until out.size) out[band] = 0f
+    }
+
+    private fun bandPeak(low: Double, high: Double): Double {
+        var peak = 0.0
+        var bin = ceil(low).toInt()
+        while (bin < high) {
+            val p = power[bin.coerceIn(0, power.size - 1)]
+            if (p > peak) peak = p
+            bin++
+        }
+        // Narrow low bands can be thinner than a single bin.
+        if (peak == 0.0) peak = powerAt((low + high) * 0.5)
+        return peak
+    }
+
+    private fun powerAt(position: Double): Double {
+        val bin = position.toInt().coerceIn(0, power.size - 2)
+        val fraction = position - bin
+        return power[bin] + (power[bin + 1] - power[bin]) * fraction
     }
 
     private fun rebuildBands(sampleRate: Int) {
         val maxFrequency = min(MAX_FREQUENCY, sampleRate * 0.49)
         val ratio = maxFrequency / MIN_FREQUENCY
-        // Bands must not share a boundary bin: a loud bin on the edge would otherwise light two
-        // neighbouring bands equally and the peak level would become ambiguous.
-        val boundaries = IntArray(bandCount + 1)
-        for (i in 0..bandCount) {
-            val frequency = MIN_FREQUENCY * ratio.pow(i.toDouble() / bandCount)
-            boundaries[i] = (frequency / sampleRate * FFT_SIZE).roundToInt().coerceIn(1, FFT_SIZE / 2)
-        }
+        val binsPerHz = FFT_SIZE.toDouble() / sampleRate
         for (band in 0 until bandCount) {
-            val start = boundaries[band]
-            bandStart[band] = start
-            bandEnd[band] = (boundaries[band + 1] - 1).coerceAtLeast(start)
+            bandLow[band] = MIN_FREQUENCY * ratio.pow(band.toDouble() / bandCount) * binsPerHz
+            bandHigh[band] = MIN_FREQUENCY * ratio.pow((band + 1).toDouble() / bandCount) * binsPerHz
         }
     }
 
