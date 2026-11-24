@@ -38,6 +38,8 @@ import androidx.media3.common.MimeTypes;
 import androidx.media3.common.Player;
 import androidx.media3.common.util.UnstableApi;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 
 import io.github.coollogin.smuzy.BuildConfig;
@@ -498,15 +500,15 @@ public class MainActivity extends BaseActivity {
         setBottomSheetVisibility(false);
 
         NavController nc = navigationController.getNavController();
-        int id = nc.getCurrentDestination().getId();
+        NavDestination current = nc.getCurrentDestination();
+        if (current != null && current.getId() == R.id.loginFragment) return;
 
-        if (id == R.id.landingFragment) {
-           nc.navigate(R.id.action_landingFragment_to_loginFragment);
-        } else if (id == R.id.settingsFragment) {
-            nc.navigate(R.id.action_settingsFragment_to_loginFragment);
-        } else if (id == R.id.homeFragment) {
-            nc.navigate(R.id.action_homeFragment_to_loginFragment);
-        }
+        // Clear the whole stack instead of matching the current screen, so a sessionless app
+        // cannot end up on a restored Home/Library tab with no way back to the login screen.
+        NavOptions options = new NavOptions.Builder()
+                .setPopUpTo(R.id.nav_graph, true)
+                .build();
+        nc.navigate(R.id.loginFragment, null, options);
     }
 
     private void goToHome() {
@@ -885,6 +887,9 @@ public class MainActivity extends BaseActivity {
 
     private void setupLoginActivity() {
         String triggerArg = getIntent().getStringExtra("LOGIN_ACTIVITY_INTENT");
+        // Consumed once: the activity is recreated with the same intent on configuration changes,
+        // and re-applying it would drag a signed-in user back to the server list.
+        getIntent().removeExtra("LOGIN_ACTIVITY_INTENT");
         if ("open_legacy_login_fragment".equals(triggerArg)) {
             goToLogin();
         } else if ("open_legacy_settings_fragment".equals(triggerArg)) {

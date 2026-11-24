@@ -99,8 +99,14 @@ public class App extends Application {
     // For a server the app is not signed in to, so it can be reached before anything about it is
     // written to the preferences.
     public static Subsonic getSubsonicClientInstance(Server server) {
+        return getSubsonicClientInstance(server, server.getAddress());
+    }
+
+    // Same as above, pinned to one of the server's addresses so the public and local ones can be
+    // tried without moving the app onto the server first.
+    public static Subsonic getSubsonicClientInstance(Server server, String serverAddress) {
         return buildSubsonicClient(
-                server.getAddress(),
+                serverAddress,
                 server.getUsername(),
                 server.getPassword(),
                 null,

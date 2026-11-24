@@ -35,6 +35,8 @@ import io.github.coollogin.smuzy.ui.activity.MainActivity;
 import io.github.coollogin.smuzy.util.Preferences;
 import io.github.coollogin.smuzy.viewmodel.LoginViewModel;
 
+import java.util.Objects;
+
 @UnstableApi
 public class LoginFragment extends Fragment implements ClickCallback {
     private static final String TAG = "LoginFragment";
@@ -150,14 +152,22 @@ public class LoginFragment extends Fragment implements ClickCallback {
     @Override
     public void onServerClick(Bundle bundle) {
         Server server = bundle.getParcelable("server_object");
-        saveServerPreference(server.getServerId(), server.getAddress(), server.getLocalAddress(), server.getUsername(), server.getPassword(), server.isLowSecurity(), server.getClientCert(), server.getCustomHeaders());
+        checkServer(server, firstAddressToTry(server));
+    }
 
+    // Credentials are checked against the server before the session is switched, so a server that
+    // rejects them leaves the current one signed in instead of logging the user out.
+    private void checkServer(Server server, String address) {
         SystemRepository systemRepository = new SystemRepository();
-        systemRepository.checkUserCredential(new SystemCallback() {
+        systemRepository.checkUserCredential(App.getSubsonicClientInstance(server, address), new SystemCallback() {
             @Override
             public void onError(Exception exception) {
-                Preferences.switchInUseServerAddress();
-                resetServerPreference();
+                String localAddress = server.getLocalAddress();
+                if (localAddress != null && !localAddress.isEmpty() && !localAddress.equals(address)) {
+                    // The public address can be out of reach while the local one works.
+                    checkServer(server, localAddress);
+                    return;
+                }
 
                 Context context = getContext();
                 if (context != null && isAdded()) {
@@ -167,44 +177,40 @@ public class LoginFragment extends Fragment implements ClickCallback {
 
             @Override
             public void onSuccess(String password, String token, String salt) {
+                saveServerPreference(server, address);
                 new PlaylistRepository().refreshAllPlaylists();
                 activity.goFromLogin();
             }
         });
     }
 
-    private void saveServerPreference(String serverId, String server, String localAddress, String user, String password, boolean isLowSecurity, String clientCert, String customHeaders) {
-        // Written only when the stored address belongs to another server. Tapping the same one
-        // again has to keep the flip onError made, which is how a second attempt reaches the local
-        // address. The server id cannot be the test, because onError clears it.
+    private String firstAddressToTry(Server server) {
         String inUseAddress = Preferences.getInUseServerAddress();
-        boolean addressIsThisServers = java.util.Objects.equals(inUseAddress, server)
-                || java.util.Objects.equals(inUseAddress, localAddress);
+        if (Objects.equals(inUseAddress, server.getAddress())
+                || Objects.equals(inUseAddress, server.getLocalAddress())) {
+            return inUseAddress;
+        }
+        return server.getAddress();
+    }
 
-        Preferences.setServerId(serverId);
-        Preferences.setServer(server);
-        Preferences.setLocalAddress(localAddress);
-        if (!addressIsThisServers) Preferences.setInUseServerAddress(server);
-        Preferences.setUser(user);
-        Preferences.setPassword(password);
-        Preferences.setLowSecurity(isLowSecurity);
-        Preferences.setClientCert(clientCert);
-        Preferences.setCustomHeaders(customHeaders);
+    private void saveServerPreference(Server server, String inUseAddress) {
+        Preferences.setServerId(server.getServerId());
+        Preferences.setServer(server.getAddress());
+        Preferences.setLocalAddress(emptyToNull(server.getLocalAddress()));
+        Preferences.setInUseServerAddress(inUseAddress);
+        Preferences.setUser(server.getUsername());
+        Preferences.setPassword(server.getPassword());
+        Preferences.setLowSecurity(server.isLowSecurity());
+        Preferences.setClientCert(emptyToNull(server.getClientCert()));
+        Preferences.setCustomHeaders(emptyToNull(server.getCustomHeaders()));
+        // Derived from another server, if this is a switch without a logout in between.
+        Preferences.setToken(null);
+        Preferences.setSalt(null);
 
         App.getSubsonicClientInstance(true);
     }
 
-    private void resetServerPreference() {
-        Preferences.setServerId(null);
-        Preferences.setServer(null);
-        Preferences.setUser(null);
-        Preferences.setPassword(null);
-        Preferences.setToken(null);
-        Preferences.setSalt(null);
-        Preferences.setLowSecurity(false);
-        Preferences.setClientCert(null);
-        Preferences.setCustomHeaders(null);
-
-        App.getSubsonicClientInstance(true);
+    private static String emptyToNull(String value) {
+        return value == null || value.isEmpty() ? null : value;
     }
 }
