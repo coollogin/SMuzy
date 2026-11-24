@@ -49,6 +49,10 @@ import java.util.ArrayList
 @OptIn(markerClass = [UnstableApi::class])
 class PlayerCoverFragment : Fragment() {
 
+    private companion object {
+        const val TAP_BUTTON_HIDE_DELAY_MS = 2_000L
+    }
+
     private var bind: InnerFragmentPlayerCoverBinding? = null
     private lateinit var playerBottomSheetViewModel: PlayerBottomSheetViewModel
     private var mediaBrowserListenableFuture: ListenableFuture<MediaBrowser>? = null
@@ -230,7 +234,7 @@ class PlayerCoverFragment : Fragment() {
             val runnable = Runnable {
                 bind?.nowPlayingTapButton?.visibility = View.GONE
             }
-            handler.postDelayed(runnable, 10000)
+            handler.postDelayed(runnable, TAP_BUTTON_HIDE_DELAY_MS)
         }
     }
 
